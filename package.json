@@ -1,0 +1,16 @@
+{
+  "name": "bmd-multiview",
+  "version": "1.2.0",
+  "description": "Module to control BlackMagic Design Multiview",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Multiview",
+    "BMD",
+    "BlackMagic"
+  ],
+  "author": "Per Røine <per.roine@gmail.com>",
+  "license": "MIT"
+}
