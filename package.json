@@ -6,7 +6,8 @@
 	"manufacturer": "Blackmagic Design",
 	"product": "Multiview 4",
 	"shortname": "multiview4",
-  "description": "Module to control BlackMagic Design Multiview 4",
+  "description": "Module to control BlackMagic Design Multiview 4cd ..
+	",
 	"homepage": "https://www.blackmagicdesign.com/products/multiview",
   "main": "index.js",
   "scripts": {
