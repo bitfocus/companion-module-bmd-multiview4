@@ -92,6 +92,7 @@ instance.prototype.destroy = function() {
 
 	debug("destroy", self.id);;
 };
+
 instance.prototype.init_presets = function () {
 	var self = this;
 	var presets = [
@@ -124,176 +125,161 @@ instance.prototype.init_presets = function () {
 			]
 		},
 		{
-				category: 'Multiview',
-				label: 'VIDEO \\n1',
-				bank: {
-					style: 'text',
-					text: 'Video \\n1',
-					size: '18',
-					color: self.rgb(255,255,255),
-					bgcolor: self.rgb(0,0,0),
+			category: 'Multiview',
+			label: 'VIDEO \\n1',
+			bank: {
+				style: 'text',
+				text: 'Video \\n1',
+				size: '18',
+				color: self.rgb(255,255,255),
+				bgcolor: self.rgb(0,0,0),
 
-				},
-				actions: [
-					{
-						action: 'solo',
-						options: {
-							inp: 0,
-						}
+			},
+			actions: [
+				{
+					action: 'solo',
+					options: {
+						inp: 0,
 					}
-				]
+				}
+			]
 		},
 		{
-				category: 'Multiview',
-				label: 'VIDEO \\n2',
-				bank: {
-					style: 'text',
-					text: 'Video \\n2',
-					size: '18',
-					color: self.rgb(255,255,255),
-					bgcolor: self.rgb(0,0,0),
-
-				},
-				actions: [
-					{
-						action: 'solo',
-						options: {
-							inp: 1,
-						}
+			category: 'Multiview',
+			label: 'VIDEO \\n2',
+			bank: {
+				style: 'text',
+				text: 'Video \\n2',
+				size: '18',
+				color: self.rgb(255,255,255),
+				bgcolor: self.rgb(0,0,0),
+			},
+			actions: [
+				{
+					action: 'solo',
+					options: {
+						inp: 1,
 					}
-				]
+				}
+			]
 		},
 		{
-				category: 'Multiview',
-				label: 'VIDEO \\n3',
-				bank: {
-					style: 'text',
-					text: 'Video \\n3',
-					size: '18',
-					color: self.rgb(255,255,255),
-					bgcolor: self.rgb(0,0,0),
-
-				},
-				actions: [
-					{
-						action: 'solo',
-						options: {
-							inp: 2,
-						}
+			category: 'Multiview',
+			label: 'VIDEO \\n3',
+			bank: {
+				style: 'text',
+				text: 'Video \\n3',
+				size: '18',
+				color: self.rgb(255,255,255),
+				bgcolor: self.rgb(0,0,0),
+			},
+			actions: [
+				{
+					action: 'solo',
+					options: {
+						inp: 2,
 					}
-				]
+				}
+			]
 		},
 		{
-				category: 'Multiview',
-				label: 'VIDEO \\n4',
-				bank: {
-					style: 'text',
-					text: 'Video \\n4',
-					size: '18',
-					color: self.rgb(255,255,255),
-					bgcolor: self.rgb(0,0,0),
-
-				},
-				actions: [
-					{
-						action: 'solo',
-						options: {
-							inp: 3,
-						}
+			category: 'Multiview',
+			label: 'VIDEO \\n4',
+			bank: {
+				style: 'text',
+				text: 'Video \\n4',
+				size: '18',
+				color: self.rgb(255,255,255),
+				bgcolor: self.rgb(0,0,0),
+			},
+			actions: [
+				{
+					action: 'solo',
+					options: {
+						inp: 3,
 					}
-				]
+				}
+			]
 		},
 		{
-				category: 'Multiview',
-				label: 'Audio \\n1',
-				bank: {
-					style: 'text',
-					text: 'Audio \\n1',
-					size: '18',
-					color: self.rgb(255,255,255),
-					bgcolor: self.rgb(0,0,0),
-
-				},
-				actions: [
-					{
-						action: 'audio',
-						options: {
-							inp: 0,
-						}
+			category: 'Multiview',
+			label: 'Audio \\n1',
+			bank: {
+				style: 'text',
+				text: 'Audio \\n1',
+				size: '18',
+				color: self.rgb(255,255,255),
+				bgcolor: self.rgb(0,0,0),
+			},
+			actions: [
+				{
+					action: 'audio',
+					options: {
+						inp: 0,
 					}
-				]
+				}
+			]
 		},
 		{
-				category: 'Multiview',
-				label: 'Audio \\n2',
-				bank: {
-					style: 'text',
-					text: 'Audio \\n2',
-					size: '18',
-					color: self.rgb(255,255,255),
-					bgcolor: self.rgb(0,0,0),
-
-				},
-				actions: [
-					{
-						action: 'audio',
-						options: {
-							inp: 1,
-						}
+			category: 'Multiview',
+			label: 'Audio \\n2',
+			bank: {
+				style: 'text',
+				text: 'Audio \\n2',
+				size: '18',
+				color: self.rgb(255,255,255),
+				bgcolor: self.rgb(0,0,0),
+			},
+			actions: [
+				{
+					action: 'audio',
+					options: {
+						inp: 1,
 					}
-				]
+				}
+			]
 		},
 		{
-				category: 'Multiview',
-				label: 'Audio \\n3',
-				bank: {
-					style: 'text',
-					text: 'Audio \\n3',
-					size: '18',
-					color: self.rgb(255,255,255),
-					bgcolor: self.rgb(0,0,0),
-
-				},
-				actions: [
-					{
-						action: 'audio',
-						options: {
-							inp: 2,
-						}
+			category: 'Multiview',
+			label: 'Audio \\n3',
+			bank: {
+				style: 'text',
+				text: 'Audio \\n3',
+				size: '18',
+				color: self.rgb(255,255,255),
+				bgcolor: self.rgb(0,0,0),
+			},
+			actions: [
+				{
+					action: 'audio',
+					options: {
+						inp: 2,
 					}
-				]
+				}
+			]
 		},
 		{
-				category: 'Multiview',
-				label: 'Audio \\n4',
-				bank: {
-					style: 'text',
-					text: 'Audio \\n4',
-					size: '18',
-					color: self.rgb(255,255,255),
-					bgcolor: self.rgb(0,0,0),
-
-				},
-				actions: [
-					{
-						action: 'audio',
-						options: {
-							inp: 3,
-						}
+			category: 'Multiview',
+			label: 'Audio \\n4',
+			bank: {
+				style: 'text',
+				text: 'Audio \\n4',
+				size: '18',
+				color: self.rgb(255,255,255),
+				bgcolor: self.rgb(0,0,0),
+			},
+			actions: [
+				{
+					action: 'audio',
+					options: {
+						inp: 3,
 					}
-				]
-		},
-
-
-
+				}
+			]
+		}
 		];
-
-
-
-
 	self.setPresetDefinitions(presets);
 }
-
 
 instance.prototype.actions = function(system) {
 	var self = this;

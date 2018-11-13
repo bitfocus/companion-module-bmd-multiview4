@@ -6,14 +6,13 @@
 	"manufacturer": "Blackmagic Design",
 	"product": "Multiview 4",
 	"shortname": "multiview4",
-  "description": "Module to control BlackMagic Design Multiview 4cd ..
-	",
+	"description": "Module to control BlackMagic Design Multiview 4",
 	"homepage": "https://www.blackmagicdesign.com/products/multiview",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
 
-  "author": "Per Røine <per.roine@gmail.com>",
-  "license": "MIT"
+	"author": "Per Røine <per.roine@gmail.com>",
+	"license": "MIT"
 }
