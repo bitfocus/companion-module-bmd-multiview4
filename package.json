@@ -1,8 +1,11 @@
 {
-  "name": "bmd-multiview4",
-  "version": "1.2.0",
+	"name": "bmd-multiview4",
+	"version": "1.2.1",
 	"api_version": "1.0.0",
-	"keywords": [ "Multiviewer", "Monitor" ],
+	"keywords": [
+		"Multiviewer",
+		"Monitor"
+	],
 	"manufacturer": "Blackmagic Design",
 	"product": "Multiview 4",
 	"shortname": "multiview4",
