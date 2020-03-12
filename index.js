@@ -5,7 +5,7 @@ var actions       = require('./actions');
 var feedback      = require('./feedback');
 var presets       = require('./presets');
 var variables     = require('./variables');
-var internal_api  = require('../videohub/internalAPI');
+var internal_api  = require('../bmd-videohub/internalAPI');
 
 var debug;
 var log;
