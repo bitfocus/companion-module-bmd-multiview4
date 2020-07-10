@@ -17,7 +17,8 @@ module.exports = {
 					type:    'dropdown',
 					label:   'Display Mode',
 					id:      'mode',
-					choices: this.CHOICES_DISPLAYMODE
+					choices: this.CHOICES_DISPLAYMODE,
+					default: 'true'
 				}
 			]
 		};
@@ -28,7 +29,8 @@ module.exports = {
 					type:    'dropdown',
 					label:   'Input',
 					id:      'inp',
-					choices: this.CHOICES_INPUTS
+					choices: this.CHOICES_INPUTS,
+					default: 0
 				}
 			]
 		};
@@ -39,7 +41,8 @@ module.exports = {
 					type:    'dropdown',
 					label:   'Input',
 					id:      'inp',
-					choices: this.CHOICES_INPUTS
+					choices: this.CHOICES_INPUTS,
+					default: 0
 				}
 			]
 		};
@@ -55,7 +58,8 @@ module.exports = {
 					type:    'dropdown',
 					label:   'Input',
 					id:      'inp',
-					choices: this.CHOICES_INPUTS
+					choices: this.CHOICES_INPUTS,
+					default: 0
 				}
 			]
 		};
