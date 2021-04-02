@@ -61,10 +61,10 @@ class instance extends instance_skel {
 		];
 
 		this.CHOICES_OUTPUTFORMAT = [
-			{ id: '50i', label: '50i',  preset: '50i' },
-			{ id: '50p', label: '50p',  preset: '50p' },
-			{ id: '60i', label: '60i',  preset: '60i' },
-			{ id: '60p', label: '60p',  preset: '60p' }
+			{ id: '1080i50', label: '1080i50',  preset: '1080i50' },
+                        { id: '1080i5994', label: '1080i5994',  preset: '1080i5994' },
+                        { id: '2160p25', label: '2160p25',  preset: '2160p25' },
+                        { id: '2160p2997', label: '2160p2997',  preset: '2160p2997' }
 		];
 
 		this.CHOICES_TRUEFALSE = [
