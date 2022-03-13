@@ -121,7 +121,7 @@ class instance extends instance_skel {
 				break;
 			case 'label':
 				let label = opt.label;
-				self.parseVariables(label, function (value) {
+				this.parseVariables(label, function (value) {
 					label = value;
 				});
 				cmd ='INPUT LABELS:\n'+ opt.inp +' '+ label +'\n\n';
