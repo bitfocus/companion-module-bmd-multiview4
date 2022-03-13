@@ -120,7 +120,11 @@ class instance extends instance_skel {
 				cmd ='VIDEO OUTPUT ROUTING:\n'+this.outputCount+' '+opt.inp +'\n\n';
 				break;
 			case 'label':
-				cmd ='INPUT LABELS:\n'+ opt.inp +' '+ opt.label +'\n\n';
+				let label = opt.label;
+				self.parseVariables(label, function (value) {
+					label = value;
+				});
+				cmd ='INPUT LABELS:\n'+ opt.inp +' '+ label +'\n\n';
 				break;
 			case 'set_format':
 				cmd = "CONFIGURATION:\n"+"Output format: "+opt.setting+"\n\n";
