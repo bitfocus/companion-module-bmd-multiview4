@@ -1,6 +1,6 @@
 {
 	"name": "bmd-multiview4",
-	"version": "1.3.3",
+	"version": "1.3.4",
 	"api_version": "1.0.0",
 	"keywords": [
 		"Multiviewer",
@@ -17,7 +17,8 @@
 	},
 	"author": "Per Røine <per.roine@gmail.com>",
 	"contributors": [
-		"Keith Rocheck <keith.rocheck@gmail.com>"
+		"Keith Rocheck <keith.rocheck@gmail.com>",
+		"Joseph Adams <josephdadams@gmail.com>"
 	],
 	"license": "MIT",
 	"bugs": {
