@@ -71,7 +71,7 @@ class instance extends instance_skel {
 			{ id: 'false', label: 'False', preset: 'Off' },
 		]
 
-		this.PRESETS_SETTIGS = [
+		this.PRESETS_SETTINGS = [
 			{ action: 'mode', feedback: 'solo_enabled', label: 'Display Mode ', choices: this.CHOICES_DISPLAYMODE },
 			{ action: 'set_format', feedback: 'output_format', label: 'Output Format: ', choices: this.CHOICES_OUTPUTFORMAT },
 			{ action: 'set_border', feedback: 'display_border', label: 'Borders ', choices: this.CHOICES_TRUEFALSE },

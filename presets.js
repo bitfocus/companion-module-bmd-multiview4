@@ -69,33 +69,33 @@ module.exports = {
 			})
 		}
 
-		for (var type in this.PRESETS_SETTIGS) {
-			for (var choice in this.PRESETS_SETTIGS[type].choices) {
+		for (var type in this.PRESETS_SETTINGS) {
+			for (var choice in this.PRESETS_SETTINGS[type].choices) {
 				presets.push({
 					category: 'Settings',
-					label: this.PRESETS_SETTIGS[type].label + this.PRESETS_SETTIGS[type].choices[choice].preset,
+					label: this.PRESETS_SETTINGS[type].label + this.PRESETS_SETTINGS[type].choices[choice].preset,
 					bank: {
 						style: 'text',
-						text: this.PRESETS_SETTIGS[type].label + this.PRESETS_SETTIGS[type].choices[choice].preset,
+						text: this.PRESETS_SETTINGS[type].label + this.PRESETS_SETTINGS[type].choices[choice].preset,
 						size: '14',
 						color: this.rgb(255, 255, 255),
 						bgcolor: this.rgb(0, 0, 0),
 					},
 					feedbacks: [
 						{
-							type: this.PRESETS_SETTIGS[type].feedback,
+							type: this.PRESETS_SETTINGS[type].feedback,
 							options: {
 								bg: this.rgb(255, 255, 0),
 								fg: this.rgb(0, 0, 0),
-								setting: this.PRESETS_SETTIGS[type].choices[choice].id,
+								setting: this.PRESETS_SETTINGS[type].choices[choice].id,
 							},
 						},
 					],
 					actions: [
 						{
-							action: this.PRESETS_SETTIGS[type].action,
+							action: this.PRESETS_SETTINGS[type].action,
 							options: {
-								setting: this.PRESETS_SETTIGS[type].choices[choice].id,
+								setting: this.PRESETS_SETTINGS[type].choices[choice].id,
 							},
 						},
 					],
