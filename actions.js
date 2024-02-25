@@ -1,5 +1,4 @@
 module.exports = {
-
 	/**
 	 * INTERNAL: Get the available actions.
 	 *
@@ -8,61 +7,61 @@ module.exports = {
 	 * @since 1.3.0
 	 */
 	getActions() {
-		var actions = {};
+		var actions = {}
 
 		actions['mode'] = {
 			label: 'Display Mode',
 			options: [
 				{
-					type:    'dropdown',
-					label:   'Display Mode',
-					id:      'mode',
+					type: 'dropdown',
+					label: 'Display Mode',
+					id: 'mode',
 					choices: this.CHOICES_DISPLAYMODE,
-					default: 'true'
-				}
-			]
-		};
+					default: 'true',
+				},
+			],
+		}
 		actions['audio'] = {
 			label: 'Audio from Input',
 			options: [
 				{
-					type:    'dropdown',
-					label:   'Input',
-					id:      'inp',
+					type: 'dropdown',
+					label: 'Input',
+					id: 'inp',
 					choices: this.CHOICES_INPUTS,
-					default: 0
-				}
-			]
-		};
+					default: 0,
+				},
+			],
+		}
 		actions['solo'] = {
 			label: 'Solo from Input',
 			options: [
 				{
-					type:    'dropdown',
-					label:   'Input',
-					id:      'inp',
+					type: 'dropdown',
+					label: 'Input',
+					id: 'inp',
 					choices: this.CHOICES_INPUTS,
-					default: 0
-				}
-			]
-		};
+					default: 0,
+				},
+			],
+		}
 		actions['label'] = {
 			label: 'Input Label',
 			options: [
 				{
-					type:    'textinput',
-					label:   'Label',
-					id:      'label'
+					type: 'textinput',
+					label: 'Label',
+					id: 'label',
 				},
 				{
-					type:    'dropdown',
-					label:   'Input',
-					id:      'inp',
+					type: 'dropdown',
+					label: 'Input',
+					id: 'inp',
 					choices: this.CHOICES_INPUTS,
-					default: 0
-				}
-			]
-		};
+					default: 0,
+				},
+			],
+		}
 		actions['set_format'] = {
 			label: 'Set output format',
 			options: [
@@ -71,10 +70,10 @@ module.exports = {
 					label: 'Format',
 					id: 'setting',
 					default: '60p',
-					choices: this.CHOICES_OUTPUTFORMAT
-				}
-			]
-		};
+					choices: this.CHOICES_OUTPUTFORMAT,
+				},
+			],
+		}
 		actions['set_border'] = {
 			label: 'Display border',
 			options: [
@@ -83,10 +82,10 @@ module.exports = {
 					label: 'Value',
 					id: 'setting',
 					default: 'true',
-					choices: this.CHOICES_TRUEFALSE
-				}
-			]
-		};
+					choices: this.CHOICES_TRUEFALSE,
+				},
+			],
+		}
 		actions['set_labels'] = {
 			label: 'Display labels',
 			options: [
@@ -95,10 +94,10 @@ module.exports = {
 					label: 'Value',
 					id: 'setting',
 					default: 'true',
-					choices: this.CHOICES_TRUEFALSE
-				}
-			]
-		};
+					choices: this.CHOICES_TRUEFALSE,
+				},
+			],
+		}
 		actions['set_meters'] = {
 			label: 'Display audio meters',
 			options: [
@@ -107,10 +106,10 @@ module.exports = {
 					label: 'Value',
 					id: 'setting',
 					default: 'true',
-					choices: this.CHOICES_TRUEFALSE
-				}
-			]
-		};
+					choices: this.CHOICES_TRUEFALSE,
+				},
+			],
+		}
 		actions['set_tally'] = {
 			label: 'Display SDI tally',
 			options: [
@@ -119,10 +118,10 @@ module.exports = {
 					label: 'Value',
 					id: 'setting',
 					default: 'true',
-					choices: this.CHOICES_TRUEFALSE
-				}
-			]
-		};
+					choices: this.CHOICES_TRUEFALSE,
+				},
+			],
+		}
 		actions['set_widescreen_sd'] = {
 			label: 'Widescreen SD enable',
 			options: [
@@ -131,11 +130,11 @@ module.exports = {
 					label: 'Value',
 					id: 'setting',
 					default: 'true',
-					choices: this.CHOICES_TRUEFALSE
-				}
-			]
-		};
+					choices: this.CHOICES_TRUEFALSE,
+				},
+			],
+		}
 
-		return actions;
-	}
+		return actions
+	},
 }

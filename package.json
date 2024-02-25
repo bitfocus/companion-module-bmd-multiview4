@@ -13,6 +13,7 @@
 	"homepage": "https://github.com/bitfocus/companion-module-bmd-multiview4#readme",
 	"main": "index.js",
 	"scripts": {
+		"format": "prettier -w .",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "Per Røine <per.roine@gmail.com>",
@@ -20,6 +21,13 @@
 		"Keith Rocheck <keith.rocheck@gmail.com>",
 		"Joseph Adams <josephdadams@gmail.com>"
 	],
+	"dependencies": {
+		"@companion-module/base": "~1.7.0"
+	},
+	"prettier": "@companion-module/tools/.prettierrc.json",
+	"devDependencies": {
+		"@companion-module/tools": "^1.2.1"
+	},
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/bitfocus/companion-module-bmd-multiview4/issues"
