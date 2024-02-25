@@ -1,3 +1,3 @@
 # companion-module-bmd-multiview4
 
-See HELP.md and LICENSE
+See [companion/HELP.md](./companion/HELP.md) and [LICENSE](./LICENSE)
