@@ -208,7 +208,7 @@ class instance extends instance_skel {
 	getConfig() {
 		if (this.configuration === undefined) {
 			this.configuration = {
-				layout: '4x4',
+				layout: '2x2',
 				outputFormat: '60i',
 				soloEnabled: 'false',
 				widescreenSD: 'true',
