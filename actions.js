@@ -15,7 +15,7 @@ module.exports = {
 				{
 					type: 'dropdown',
 					label: 'Display Mode',
-					id: 'mode',
+					id: 'setting',
 					choices: this.CHOICES_DISPLAYMODE,
 					default: 'true',
 				},
