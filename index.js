@@ -114,7 +114,7 @@ class instance extends instance_skel {
 
 		switch (action.action) {
 			case 'mode':
-				cmd = 'CONFIGURATION:\n' + 'Solo enabled: ' + opt.mode + '\n\n'
+				cmd = 'CONFIGURATION:\n' + 'Solo enabled: ' + opt.setting + '\n\n'
 				break
 			case 'audio':
 				cmd = 'VIDEO OUTPUT ROUTING:\n' + (this.outputCount + 1) + ' ' + opt.inp + '\n\n'
