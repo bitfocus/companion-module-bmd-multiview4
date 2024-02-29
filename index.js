@@ -145,7 +145,7 @@ class instance extends instance_skel {
 				cmd = 'CONFIGURATION:\n' + 'Display SDI tally: ' + opt.setting + '\n\n'
 				break
 			case 'set_widescreen_sd':
-				cmd = 'CONFIGURATION:\n' + 'Widescreen SD enable: ' + opt.setting + '\n\n'
+				cmd = 'CONFIGURATION:\n' + 'Widescreen SD enabled: ' + opt.setting + '\n\n'
 				break
 		}
 
@@ -477,7 +477,7 @@ class instance extends instance_skel {
 					this.getConfig().soloEnabled = value
 					this.checkFeedbacks('solo_enabled')
 					break
-				case 'Widescreen SD enable':
+				case 'Widescreen SD enabled':
 					this.getConfig().widescreenSD = value
 					this.checkFeedbacks('widescreen_sd')
 					break
