@@ -24,29 +24,41 @@ module.exports = {
 			name: 'solo',
 		})
 
-		this.setVariable('solo', this.getOutput(this.outputCount).name)
-
 		variables.push({
 			label: 'Label of input routed to SOLO',
 			name: 'solo_input',
 		})
-
-		this.setVariable('solo_input', this.getInput(this.getOutput(this.outputCount).route).name)
 
 		variables.push({
 			label: 'Label of AUDIO',
 			name: 'audio',
 		})
 
-		this.setVariable('audio', this.getOutput(this.outputCount + 1).name)
-
 		variables.push({
 			label: 'Label of input routed to AUDIO',
 			name: 'solo_audio',
 		})
 
-		this.setVariable('solo_audio', this.getInput(this.getOutput(this.outputCount + 1).route).name)
+		this.updateLocalVariables()
 
 		this.setVariableDefinitions(variables)
+	},
+
+	/**
+	 * INTERNAL: update local variables.
+	 *
+	 * These deal with mapping the standard names to the more user-friendly ones
+	 *
+	 * @access protected
+	 * @since 1.3.6
+	 */
+	updateLocalVariables() {
+		this.setVariable('solo', this.getOutput(this.outputCount).name)
+
+		this.setVariable('solo_input', this.getInput(this.getOutput(this.outputCount).route).name)
+
+		this.setVariable('audio', this.getOutput(this.outputCount + 1).name)
+
+		this.setVariable('solo_audio', this.getInput(this.getOutput(this.outputCount + 1).route).name)
 	},
 }

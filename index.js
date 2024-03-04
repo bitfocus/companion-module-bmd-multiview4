@@ -349,11 +349,18 @@ class instance extends instance_skel {
 	processVideohubInformation(key, data) {
 		if (key.match(/(INPUT|OUTPUT) LABELS/)) {
 			this.updateLabels(key, data)
+
+			// Update our local variables in case a label has changed
+			this.updateLocalVariables()
+
 			this.actions()
 			this.initFeedbacks()
 			this.initPresets()
 		} else if (key.match(/VIDEO OUTPUT ROUTING/)) {
 			this.updateRouting(key, data)
+
+			// Update our local variables in case a route has changed
+			this.updateLocalVariables()
 
 			this.checkFeedbacks('input_bg')
 			this.checkFeedbacks('solo_source')
