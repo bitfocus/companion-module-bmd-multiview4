@@ -68,7 +68,7 @@ class instance extends instance_skel {
 			{ id: '1080i5994', label: '1080i59.94',  preset: '1080i59.94' },
 			{ id: '2160p25', label: '2160p25',  preset: '2160p25' },
 			{ id: '2160p2997', label: '2160p29.97',  preset: '2160p29.97' },
-		];
+		]
 
 		this.CHOICES_TRUEFALSE = [
 			{ id: 'true', label: 'True', preset: 'On' },
