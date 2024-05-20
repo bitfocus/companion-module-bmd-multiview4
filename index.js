@@ -11,7 +11,7 @@ var debug
 var log
 
 /**
- * Companion instance class for the Blackmagic MutliView 4.
+ * Companion instance class for the Blackmagic MultiView 4.
  *
  * @extends instance_skel
  * @version 1.3.0
