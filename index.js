@@ -64,6 +64,10 @@ class instance extends instance_skel {
 			{ id: '50p', label: '50p', preset: '50p' },
 			{ id: '60i', label: '60i', preset: '60i' },
 			{ id: '60p', label: '60p', preset: '60p' },
+			{ id: '1080i50', label: '1080i50',  preset: '1080i50' },
+			{ id: '1080i5994', label: '1080i59.94',  preset: '1080i59.94' },
+			{ id: '2160p25', label: '2160p25',  preset: '2160p25' },
+			{ id: '2160p2997', label: '2160p29.97',  preset: '2160p29.97' },
 		]
 
 		this.CHOICES_TRUEFALSE = [
@@ -71,7 +75,7 @@ class instance extends instance_skel {
 			{ id: 'false', label: 'False', preset: 'Off' },
 		]
 
-		this.PRESETS_SETTIGS = [
+		this.PRESETS_SETTINGS = [
 			{ action: 'mode', feedback: 'solo_enabled', label: 'Display Mode ', choices: this.CHOICES_DISPLAYMODE },
 			{ action: 'set_format', feedback: 'output_format', label: 'Output Format: ', choices: this.CHOICES_OUTPUTFORMAT },
 			{ action: 'set_border', feedback: 'display_border', label: 'Borders ', choices: this.CHOICES_TRUEFALSE },
@@ -114,7 +118,7 @@ class instance extends instance_skel {
 
 		switch (action.action) {
 			case 'mode':
-				cmd = 'CONFIGURATION:\n' + 'Solo enabled: ' + opt.mode + '\n\n'
+				cmd = 'CONFIGURATION:\n' + 'Solo enabled: ' + opt.setting + '\n\n'
 				break
 			case 'audio':
 				cmd = 'VIDEO OUTPUT ROUTING:\n' + (this.outputCount + 1) + ' ' + opt.inp + '\n\n'
@@ -145,7 +149,14 @@ class instance extends instance_skel {
 				cmd = 'CONFIGURATION:\n' + 'Display SDI tally: ' + opt.setting + '\n\n'
 				break
 			case 'set_widescreen_sd':
-				cmd = 'CONFIGURATION:\n' + 'Widescreen SD enable: ' + opt.setting + '\n\n'
+				cmd =
+					'CONFIGURATION:\n' +
+					'Widescreen SD enable: ' +
+					opt.setting +
+					'\n' +
+					'Widescreen SD enabled: ' +
+					opt.setting +
+					'\n\n'
 				break
 		}
 
@@ -208,7 +219,7 @@ class instance extends instance_skel {
 	getConfig() {
 		if (this.configuration === undefined) {
 			this.configuration = {
-				layout: '4x4',
+				layout: '2x2',
 				outputFormat: '60i',
 				soloEnabled: 'false',
 				widescreenSD: 'true',
@@ -342,11 +353,18 @@ class instance extends instance_skel {
 	processVideohubInformation(key, data) {
 		if (key.match(/(INPUT|OUTPUT) LABELS/)) {
 			this.updateLabels(key, data)
+
+			// Update our local variables in case a label has changed
+			this.updateLocalVariables()
+
 			this.actions()
 			this.initFeedbacks()
 			this.initPresets()
 		} else if (key.match(/VIDEO OUTPUT ROUTING/)) {
 			this.updateRouting(key, data)
+
+			// Update our local variables in case a route has changed
+			this.updateLocalVariables()
 
 			this.checkFeedbacks('input_bg')
 			this.checkFeedbacks('solo_source')
@@ -478,6 +496,8 @@ class instance extends instance_skel {
 					this.checkFeedbacks('solo_enabled')
 					break
 				case 'Widescreen SD enable':
+				// Fallthrough, to handle both possible names
+				case 'Widescreen SD enabled':
 					this.getConfig().widescreenSD = value
 					this.checkFeedbacks('widescreen_sd')
 					break
