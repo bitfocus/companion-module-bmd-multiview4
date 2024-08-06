@@ -22,7 +22,7 @@
 		"Joseph Adams <josephdadams@gmail.com>"
 	],
 	"dependencies": {
-		"@companion-module/base": "~1.8.0"
+		"@companion-module/base": "~1.9.0"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json",
 	"devDependencies": {
