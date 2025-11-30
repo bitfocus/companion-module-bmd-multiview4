@@ -32,7 +32,7 @@
 	"prettier": "@companion-module/tools/.prettierrc.json",
 	"devDependencies": {
 		"@companion-module/tools": "^1.4.1",
-		"rimraf": "^5.0.5",
+		"rimraf": "^6.1.2",
 		"typescript": "~5.9"
 	},
 	"license": "MIT",
