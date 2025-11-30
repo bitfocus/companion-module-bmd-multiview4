@@ -1,3 +1,8 @@
+import type { CompanionActionDefinitions } from '@companion-module/base'
+import { CHOICES_TRUEFALSE, getInputChoices } from './choices.js'
+import type { ModelDefinition } from './model.js'
+import type { MultiviewState } from './state.js'
+
 /**
  * INTERNAL: Get the available actions.
  *
@@ -5,8 +10,15 @@
  * @access protected
  * @since 1.3.0
  */
-export function getActions() {
-	let actions = {}
+export function getActions(
+	state: MultiviewState,
+	model: ModelDefinition,
+	sendMessage: (msg: string) => Promise<void>,
+): CompanionActionDefinitions {
+	const inputChoices = getInputChoices(state, model)
+
+	const actions: CompanionActionDefinitions = {}
+
 	actions.mode = {
 		name: 'Display Mode',
 		options: [
@@ -14,12 +26,12 @@ export function getActions() {
 				type: 'dropdown',
 				label: 'Display Mode',
 				id: 'setting',
-				choices: this.CHOICES_DISPLAYMODE,
+				choices: model.displayModes,
 				default: 'true',
 			},
 		],
 		callback: async (action) => {
-			await this.action(action)
+			await sendMessage(`CONFIGURATION:\nSolo enabled: ${action.options.setting}\n\n`)
 		},
 	}
 	actions.audio = {
@@ -29,12 +41,15 @@ export function getActions() {
 				type: 'dropdown',
 				label: 'Input',
 				id: 'inp',
-				choices: this.CHOICES_INPUTS,
+				choices: inputChoices,
 				default: 0,
 			},
 		],
 		callback: async (action) => {
-			await this.action(action)
+			const output = model.outputAudio
+			const input = Number(action.options.inp) || 0
+
+			await sendMessage(`VIDEO OUTPUT ROUTING:\n${output} ${input}\n\n`)
 		},
 	}
 	actions.solo = {
@@ -44,12 +59,15 @@ export function getActions() {
 				type: 'dropdown',
 				label: 'Input',
 				id: 'inp',
-				choices: this.CHOICES_INPUTS,
+				choices: inputChoices,
 				default: 0,
 			},
 		],
 		callback: async (action) => {
-			await this.action(action)
+			const output = model.outputSolo
+			const input = Number(action.options.inp) || 0
+
+			await sendMessage(`VIDEO OUTPUT ROUTING:\n${output} ${input}\n\n`)
 		},
 	}
 	actions.label = {
@@ -59,17 +77,21 @@ export function getActions() {
 				type: 'textinput',
 				label: 'Label',
 				id: 'label',
+				useVariables: true,
 			},
 			{
 				type: 'dropdown',
 				label: 'Input',
 				id: 'inp',
-				choices: this.CHOICES_INPUTS,
+				choices: inputChoices,
 				default: 0,
 			},
 		],
 		callback: async (action) => {
-			await this.action(action)
+			const input = Number(action.options.inp) || 0
+			const label = String(action.options.label ?? '')
+
+			await sendMessage(`INPUT LABELS:\n${input} ${label}\n\n`)
 		},
 	}
 	actions.set_format = {
@@ -80,11 +102,13 @@ export function getActions() {
 				label: 'Format',
 				id: 'setting',
 				default: '60p',
-				choices: this.CHOICES_OUTPUTFORMAT,
+				choices: model.outputFormats,
 			},
 		],
 		callback: async (action) => {
-			await this.action(action)
+			const setting = action.options.setting
+
+			await sendMessage(`CONFIGURATION:\nOutput format: ${setting}\n\n`)
 		},
 	}
 	actions.set_border = {
@@ -95,11 +119,13 @@ export function getActions() {
 				label: 'Value',
 				id: 'setting',
 				default: 'true',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		callback: async (action) => {
-			await this.action(action)
+			const setting = action.options.setting
+
+			await sendMessage(`CONFIGURATION:\nDisplay border: ${setting}\n\n`)
 		},
 	}
 	actions.set_labels = {
@@ -110,11 +136,13 @@ export function getActions() {
 				label: 'Value',
 				id: 'setting',
 				default: 'true',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		callback: async (action) => {
-			await this.action(action)
+			const setting = action.options.setting
+
+			await sendMessage(`CONFIGURATION:\nDisplay labels: ${setting}\n\n`)
 		},
 	}
 	actions.set_meters = {
@@ -125,11 +153,13 @@ export function getActions() {
 				label: 'Value',
 				id: 'setting',
 				default: 'true',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		callback: async (action) => {
-			await this.action(action)
+			const setting = action.options.setting
+
+			await sendMessage(`CONFIGURATION:\nDisplay audio meters: ${setting}\n\n`)
 		},
 	}
 	actions.set_tally = {
@@ -140,11 +170,13 @@ export function getActions() {
 				label: 'Value',
 				id: 'setting',
 				default: 'true',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		callback: async (action) => {
-			await this.action(action)
+			const setting = action.options.setting
+
+			await sendMessage(`CONFIGURATION:\nDisplay SDI tally: ${setting}\n\n`)
 		},
 	}
 	actions.set_widescreen_sd = {
@@ -155,11 +187,13 @@ export function getActions() {
 				label: 'Value',
 				id: 'setting',
 				default: 'true',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		callback: async (action) => {
-			await this.action(action)
+			const setting = action.options.setting
+
+			await sendMessage(`CONFIGURATION:\nWidescreen SD enable: ${setting}\nWidescreen SD enabled: ${setting}\n\n`)
 		},
 	}
 

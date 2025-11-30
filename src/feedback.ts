@@ -1,14 +1,16 @@
-import { combineRgb } from '@companion-module/base'
+import type { CompanionFeedbackDefinitions } from '@companion-module/base'
+import { CHOICES_TRUEFALSE, getInputChoices } from './choices.js'
+import type { ModelDefinition } from './model.js'
+import type { MultiviewState } from './state.js'
 
 /**
  * INTERNAL: initialize feedbacks.
- *
- * @access protected
- * @since 1.3.0
  */
-export function initFeedbacks() {
+export function getFeedbacks(state: MultiviewState, model: ModelDefinition): CompanionFeedbackDefinitions {
+	const inputChoices = getInputChoices(state, model)
+
 	// feedbacks
-	var feedbacks = []
+	const feedbacks: CompanionFeedbackDefinitions = {}
 
 	feedbacks['solo_source'] = {
 		type: 'boolean',
@@ -20,15 +22,15 @@ export function initFeedbacks() {
 				label: 'Input',
 				id: 'input',
 				default: '0',
-				choices: this.CHOICES_INPUTS,
+				choices: inputChoices,
 			},
 		],
 		defaultStyle: {
-			color: combineRgb(0, 0, 0),
-			bgcolor: combineRgb(255, 255, 0),
+			color: 0x000000,
+			bgcolor: 0xffff00,
 		},
-		callback: (feedback, bank) => {
-			return this.state.getOutputById(this.outputCount).route == parseInt(feedback.options.input)
+		callback: (feedback) => {
+			return state.getOutputRoute(model.outputSolo) === Number(feedback.options.input)
 		},
 	}
 
@@ -42,15 +44,15 @@ export function initFeedbacks() {
 				label: 'Input',
 				id: 'input',
 				default: '0',
-				choices: this.CHOICES_INPUTS,
+				choices: inputChoices,
 			},
 		],
 		defaultStyle: {
-			color: combineRgb(0, 0, 0),
-			bgcolor: combineRgb(255, 255, 0),
+			color: 0x000000,
+			bgcolor: 0xffff00,
 		},
-		callback: (feedback, bank) => {
-			return this.state.getOutputById(this.outputCount + 1).route == parseInt(feedback.options.input)
+		callback: (feedback) => {
+			return state.getOutputRoute(model.outputAudio) === Number(feedback.options.input)
 		},
 	}
 
@@ -64,15 +66,15 @@ export function initFeedbacks() {
 				label: 'Format',
 				id: 'setting',
 				default: '0',
-				choices: this.CHOICES_OUTPUTFORMAT,
+				choices: model.outputFormats,
 			},
 		],
 		defaultStyle: {
-			color: combineRgb(0, 0, 0),
-			bgcolor: combineRgb(255, 255, 0),
+			color: 0x000000,
+			bgcolor: 0xffff00,
 		},
-		callback: (feedback, bank) => {
-			return this.getConfig().outputFormat == feedback.options.setting
+		callback: (feedback) => {
+			return state.configuration.outputFormat == feedback.options.setting
 		},
 	}
 
@@ -86,15 +88,15 @@ export function initFeedbacks() {
 				label: 'Value',
 				id: 'setting',
 				default: '0',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		defaultStyle: {
-			color: combineRgb(0, 0, 0),
-			bgcolor: combineRgb(255, 255, 0),
+			color: 0x000000,
+			bgcolor: 0xffff00,
 		},
-		callback: (feedback, bank) => {
-			return this.getConfig().soloEnabled == feedback.options.setting
+		callback: (feedback) => {
+			return state.configuration.soloEnabled == (feedback.options.setting === 'true')
 		},
 	}
 
@@ -108,15 +110,15 @@ export function initFeedbacks() {
 				label: 'Value',
 				id: 'setting',
 				default: '0',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		defaultStyle: {
-			color: combineRgb(0, 0, 0),
-			bgcolor: combineRgb(255, 255, 0),
+			color: 0x000000,
+			bgcolor: 0xffff00,
 		},
-		callback: (feedback, bank) => {
-			return this.getConfig().widescreenSD == feedback.options.setting
+		callback: (feedback) => {
+			return state.configuration.widescreenSD == (feedback.options.setting === 'true')
 		},
 	}
 
@@ -130,15 +132,15 @@ export function initFeedbacks() {
 				label: 'Value',
 				id: 'setting',
 				default: '0',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		defaultStyle: {
-			color: combineRgb(0, 0, 0),
-			bgcolor: combineRgb(255, 255, 0),
+			color: 0x000000,
+			bgcolor: 0xffff00,
 		},
-		callback: (feedback, bank) => {
-			return this.getConfig().displayBorder == feedback.options.setting
+		callback: (feedback) => {
+			return state.configuration.displayBorder == (feedback.options.setting === 'true')
 		},
 	}
 
@@ -152,15 +154,15 @@ export function initFeedbacks() {
 				label: 'Value',
 				id: 'setting',
 				default: '0',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		defaultStyle: {
-			color: combineRgb(0, 0, 0),
-			bgcolor: combineRgb(255, 255, 0),
+			color: 0x000000,
+			bgcolor: 0xffff00,
 		},
-		callback: (feedback, bank) => {
-			return this.getConfig().displayLabels == feedback.options.setting
+		callback: (feedback) => {
+			return state.configuration.displayLabels == (feedback.options.setting === 'true')
 		},
 	}
 
@@ -174,15 +176,15 @@ export function initFeedbacks() {
 				label: 'Value',
 				id: 'setting',
 				default: '0',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		defaultStyle: {
-			color: combineRgb(0, 0, 0),
-			bgcolor: combineRgb(255, 255, 0),
+			color: 0x000000,
+			bgcolor: 0xffff00,
 		},
-		callback: (feedback, bank) => {
-			return this.getConfig().displayMeters == feedback.options.setting
+		callback: (feedback) => {
+			return state.configuration.displayMeters == (feedback.options.setting === 'true')
 		},
 	}
 
@@ -196,17 +198,17 @@ export function initFeedbacks() {
 				label: 'Value',
 				id: 'setting',
 				default: '0',
-				choices: this.CHOICES_TRUEFALSE,
+				choices: CHOICES_TRUEFALSE,
 			},
 		],
 		defaultStyle: {
-			color: combineRgb(0, 0, 0),
-			bgcolor: combineRgb(255, 255, 0),
+			color: 0x000000,
+			bgcolor: 0xffff00,
 		},
-		callback: (event) => {
-			return this.getConfig().displayTally == event.options.setting
+		callback: (feedback) => {
+			return state.configuration.displayTally == (feedback.options.setting === 'true')
 		},
 	}
 
-	this.setFeedbackDefinitions(feedbacks)
+	return feedbacks
 }
