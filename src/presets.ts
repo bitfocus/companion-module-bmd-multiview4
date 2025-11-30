@@ -24,7 +24,7 @@ export function getPresetDefinitions(state: MultiviewState, model: ModelDefiniti
 		},
 	]
 
-	for (var i = 0; i < model.inputCount; i++) {
+	for (let i = 0; i < model.inputCount; i++) {
 		const inputName = state.getInputName(i)
 
 		presets[`input_${i}_solo`] = {

@@ -8,7 +8,7 @@ import type { MultiviewState } from './state.js'
 export function getVariableDefinitions(model: ModelDefinition): CompanionVariableDefinition[] {
 	const variableDefinitions: CompanionVariableDefinition[] = []
 
-	for (var i = 0; i < model.inputCount; i++) {
+	for (let i = 0; i < model.inputCount; i++) {
 		variableDefinitions.push({
 			name: 'Label of input ' + (i + 1),
 			variableId: 'input_' + (i + 1),

@@ -1,5 +1,4 @@
 import { InstanceBase, InstanceStatus, TCPHelper, runEntrypoint } from '@companion-module/base'
-// import { updateLabels, updateRouting } from './videohub/internalAPI.js'
 import { MODEL_MULTIVIEW4, type ModelDefinition } from './model.js'
 import { getFeedbacks } from './feedback.js'
 import { getPresetDefinitions } from './presets.js'
@@ -264,7 +263,7 @@ class Multiview4Instance extends InstanceBase<MultiviewConfig> {
 		this.#initThings()
 	}
 
-	#updateRouting(labeltype: String, data: string[]) {
+	#updateRouting(labeltype: string, data: string[]) {
 		for (const line of data) {
 			const [destStr, srcStr] = line.split(/ /)
 			const dest = parseInt(destStr)

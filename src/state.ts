@@ -35,13 +35,13 @@ export class MultiviewState {
 
 	//
 
-	storeInputLabel(num: number, label: string) {
+	storeInputLabel(num: number, label: string): void {
 		this.#inputNames.set(num, label)
 	}
-	storeOutputLabel(num: number, label: string) {
+	storeOutputLabel(num: number, label: string): void {
 		this.#outputNames.set(num, label)
 	}
-	storeOutputRoute(dest: number, src: number) {
+	storeOutputRoute(dest: number, src: number): void {
 		this.#outputRouting.set(dest, src)
 	}
 }
