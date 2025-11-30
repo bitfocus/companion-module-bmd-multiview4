@@ -74,17 +74,17 @@ export function getActions(
 		name: 'Input Label',
 		options: [
 			{
-				type: 'textinput',
-				label: 'Label',
-				id: 'label',
-				useVariables: true,
-			},
-			{
 				type: 'dropdown',
 				label: 'Input',
 				id: 'inp',
 				choices: inputChoices,
 				default: 0,
+			},
+			{
+				type: 'textinput',
+				label: 'Label',
+				id: 'label',
+				useVariables: true,
 			},
 		],
 		callback: async (action) => {
