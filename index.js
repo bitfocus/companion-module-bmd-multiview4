@@ -1,25 +1,24 @@
-var tcp = require('../../tcp')
-var instance_skel = require('../../instance_skel')
+import { InstanceBase, InstanceStatus, TCPHelper, Regex, runEntrypoint } from '@companion-module/base'
+import * as actions from './actions.js'
+import * as feedback from './feedback.js'
+import * as presets from './presets.js'
+import * as variables from './variables.js'
 
-var actions = require('./actions')
-var feedback = require('./feedback')
-var presets = require('./presets')
-var variables = require('./variables')
-var internal_api = require('../companion-module-bmd-videohub/internalAPI')
+import { updateLabels, updateRouting } from './dist/internalAPI.js'
+import { VideohubState } from './dist/state.js'
 
-var debug
-var log
+const TCPSocket = TCPHelper
 
 /**
- * Companion instance class for the Blackmagic MutliView 4.
+ * Companion instance class for the Blackmagic MultiView 4.
  *
- * @extends instance_skel
- * @version 1.3.0
- * @since 1.0.0
+ * @extends InstanceBase
+ * @version 2.0.0
+ * @since 2.0.0
  * @author Per Røine <per.roine@gmail.com>
  * @author Keith Rocheck <keith.rocheck@gmail.com>
  */
-class instance extends instance_skel {
+class Multiview4Instance extends InstanceBase {
 	/**
 	 * Create an instance of a multiview 4 module.
 	 *
@@ -28,8 +27,10 @@ class instance extends instance_skel {
 	 * @param {Object} config - saved user configuration parameters
 	 * @since 1.0.0
 	 */
-	constructor(system, id, config) {
-		super(system, id, config)
+	constructor(instance) {
+		super(instance)
+
+		this.log('error', 'Setting actions')
 
 		this.stash = []
 		this.command = null
@@ -40,7 +41,7 @@ class instance extends instance_skel {
 			...feedback,
 			...presets,
 			...variables,
-			...internal_api,
+			//...internal_api,
 		})
 
 		this.inputs = {}
@@ -50,6 +51,8 @@ class instance extends instance_skel {
 		this.outputCount = 4
 		this.monitoringCount = 0
 		this.serialCount = 0
+
+		this.state = new VideohubState()
 
 		this.CHOICES_INPUTS = []
 		this.CHOICES_OUTPUTS = []
@@ -64,10 +67,10 @@ class instance extends instance_skel {
 			{ id: '50p', label: '50p', preset: '50p' },
 			{ id: '60i', label: '60i', preset: '60i' },
 			{ id: '60p', label: '60p', preset: '60p' },
-			{ id: '1080i50', label: '1080i50',  preset: '1080i50' },
-			{ id: '1080i5994', label: '1080i59.94',  preset: '1080i59.94' },
-			{ id: '2160p25', label: '2160p25',  preset: '2160p25' },
-			{ id: '2160p2997', label: '2160p29.97',  preset: '2160p29.97' },
+			{ id: '1080i50', label: '1080i50', preset: '1080i50' },
+			{ id: '1080i5994', label: '1080i59.94', preset: '1080i59.94' },
+			{ id: '2160p25', label: '2160p25', preset: '2160p25' },
+			{ id: '2160p2997', label: '2160p29.97', preset: '2160p29.97' },
 		]
 
 		this.CHOICES_TRUEFALSE = [
@@ -93,6 +96,12 @@ class instance extends instance_skel {
 		this.actions() // export actions
 	}
 
+	configUpdated(config) {
+		this.config = config
+		this.updateStatus(InstanceStatus.Connecting)
+		this.init_tcp()
+	}
+
 	/**
 	 * Setup the actions.
 	 *
@@ -102,7 +111,8 @@ class instance extends instance_skel {
 	 */
 	actions(system) {
 		this.setupChoices()
-		this.setActions(this.getActions())
+
+		this.setActionDefinitions(this.getActions())
 	}
 
 	/**
@@ -116,7 +126,7 @@ class instance extends instance_skel {
 		var cmd
 		var opt = action.options
 
-		switch (action.action) {
+		switch (action.actionId) {
 			case 'mode':
 				cmd = 'CONFIGURATION:\n' + 'Solo enabled: ' + opt.setting + '\n\n'
 				break
@@ -158,13 +168,15 @@ class instance extends instance_skel {
 					opt.setting +
 					'\n\n'
 				break
+			default:
+				this.log('error', 'Unknown action: ' + action.actionId)
 		}
 
 		if (cmd !== undefined) {
-			if (this.socket !== undefined && this.socket.connected) {
+			if (this.socket !== undefined && this.socket.isConnected) {
 				this.socket.send(cmd)
 			} else {
-				this.debug('Socket not connected :(')
+				this.log('error', 'Socket not connected :(')
 			}
 		}
 	}
@@ -176,7 +188,7 @@ class instance extends instance_skel {
 	 * @access public
 	 * @since 1.0.0
 	 */
-	config_fields() {
+	getConfigFields() {
 		return [
 			{
 				type: 'text',
@@ -206,7 +218,7 @@ class instance extends instance_skel {
 			this.socket.destroy()
 		}
 
-		this.debug('destroy', this.id)
+		this.log('debug', 'destroy ' + this.id)
 	}
 
 	/**
@@ -234,38 +246,16 @@ class instance extends instance_skel {
 	}
 
 	/**
-	 * INTERNAL: returns the desired output object.
-	 *
-	 * @param {number} id - the output to fetch
-	 * @returns {Object} the desired output object
-	 * @access protected
-	 * @since 1.3.0
-	 */
-	getOutput(id) {
-		if (this.outputs[id] === undefined) {
-			this.outputs[id] = {
-				label: id + 1 + ': View ' + (id + 1),
-				name: 'View ' + (id + 1),
-				route: id,
-				status: 'BNC',
-				lock: 'U',
-			}
-		}
-
-		return this.outputs[id]
-	}
-
-	/**
 	 * Main initialization function called once the module
 	 * is OK to start doing things.
 	 *
 	 * @access public
 	 * @since 1.0.0
 	 */
-	init() {
-		debug = this.debug
-		log = this.log
+	async init(config) {
+		this.config = config
 
+		this.actions() // export actions
 		this.initVariables()
 		this.initFeedbacks()
 		this.initPresets()
@@ -292,19 +282,24 @@ class instance extends instance_skel {
 		}
 
 		if (this.config.host) {
-			this.socket = new tcp(this.config.host, this.config.port)
+			this.socket = new TCPSocket(this.config.host, this.config.port)
 
 			this.socket.on('status_change', (status, message) => {
-				this.status(status, message)
+				this.log('error', status + ': ' + message)
+			})
+
+			this.socket.on('end', () => {
+				this.log('debug', 'Connection closed')
 			})
 
 			this.socket.on('error', (err) => {
-				this.debug('Network error', err)
+				this.updateStatus(InstanceStatus.ConnectionFailure)
 				this.log('error', 'Network error: ' + err.message)
 			})
 
 			this.socket.on('connect', () => {
-				this.debug('Connected')
+				this.updateStatus(InstanceStatus.Ok)
+				this.log('debug', 'Connected')
 			})
 
 			// separate buffered stream into lines with responses
@@ -336,9 +331,12 @@ class instance extends instance_skel {
 					this.stash = []
 					this.command = null
 				} else {
-					this.debug('weird response from videohub', line, line.length)
+					this.log('debug', 'weird response from videohub ' + line + ' - ' + line.length)
 				}
 			})
+		} else {
+			this.log('error', "Didn't get a target to connect to")
+			this.updateStatus(InstanceStatus.Disconnected)
 		}
 	}
 
@@ -352,7 +350,7 @@ class instance extends instance_skel {
 	 */
 	processVideohubInformation(key, data) {
 		if (key.match(/(INPUT|OUTPUT) LABELS/)) {
-			this.updateLabels(key, data)
+			updateLabels(this, this.state, key, data)
 
 			// Update our local variables in case a label has changed
 			this.updateLocalVariables()
@@ -361,16 +359,16 @@ class instance extends instance_skel {
 			this.initFeedbacks()
 			this.initPresets()
 		} else if (key.match(/VIDEO OUTPUT ROUTING/)) {
-			this.updateRouting(key, data)
+			updateRouting(this, this.state, key, data)
 
-			// Update our local variables in case a route has changed
+			// Update our local variables in case a label has changed
 			this.updateLocalVariables()
 
 			this.checkFeedbacks('input_bg')
 			this.checkFeedbacks('solo_source')
 			this.checkFeedbacks('audio_source')
 		} else if (key.match(/VIDEO OUTPUT LOCKS/)) {
-			this.updateLocks(key, data)
+			//this.updateLocks(key, data)
 		} else if (key.match(/(VIDEO INPUT|VIDEO OUTPUT) STATUS/)) {
 			this.updateStatus(key, data)
 			this.actions()
@@ -401,16 +399,16 @@ class instance extends instance_skel {
 
 		if (this.inputCount > 0) {
 			for (var key = 0; key < this.inputCount; key++) {
-				if (this.getInput(key).status != 'None') {
-					this.CHOICES_INPUTS.push({ id: key, label: this.getInput(key).label })
+				if (this.state.getInput(key).status != 'None') {
+					this.CHOICES_INPUTS.push({ id: key, label: this.state.getInput(key).label })
 				}
 			}
 		}
 
 		if (this.outputCount > 0) {
 			for (var key = 0; key < this.outputCount; key++) {
-				if (this.getOutput(key).status != 'None') {
-					this.CHOICES_OUTPUTS.push({ id: key, label: this.getOutput(key).label })
+				if (this.state.getOutputById(key).status != 'None') {
+					this.CHOICES_OUTPUTS.push({ id: key, label: this.state.getOutputById(key).label })
 				}
 			}
 		}
@@ -522,4 +520,4 @@ class instance extends instance_skel {
 	}
 }
 
-exports = module.exports = instance
+runEntrypoint(Multiview4Instance, [])

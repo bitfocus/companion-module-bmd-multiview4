@@ -1,6 +1,6 @@
 {
 	"name": "bmd-multiview4",
-	"version": "1.3.5",
+	"version": "2.0.0",
 	"api_version": "1.0.0",
 	"keywords": [
 		"Multiviewer",
@@ -12,7 +12,11 @@
 	"description": "Module to control BlackMagic Design Multiview 4",
 	"homepage": "https://github.com/bitfocus/companion-module-bmd-multiview4#readme",
 	"main": "index.js",
+	"type": "module",
 	"scripts": {
+		"dev": "yarn build:main --watch",
+		"build": "rimraf dist && yarn build:main",
+		"build:main": "tsc -p tsconfig.json",
 		"format": "prettier -w .",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -22,11 +26,14 @@
 		"Joseph Adams <josephdadams@gmail.com>"
 	],
 	"dependencies": {
-		"@companion-module/base": "~1.10.0"
+		"@companion-module/base": "~1.8.0",
+		"ts-node": "^10.9.2"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json",
 	"devDependencies": {
-		"@companion-module/tools": "^1.2.1"
+		"@companion-module/tools": "^1.4.1",
+		"rimraf": "^5.0.5",
+		"typescript": "~5.2"
 	},
 	"license": "MIT",
 	"bugs": {

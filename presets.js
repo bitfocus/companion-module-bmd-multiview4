@@ -1,108 +1,129 @@
-module.exports = {
-	/**
-	 * INTERNAL: initialize presets.
-	 *
-	 * @access protected
-	 * @since 1.3.0
-	 */
-	initPresets() {
-		var presets = []
+import { combineRgb } from '@companion-module/base'
 
-		for (var i = 0; i < this.inputCount; i++) {
-			presets.push({
-				category: 'Multiview',
-				label: 'Solo: ' + this.getInput(i).name + '',
-				bank: {
-					style: 'text',
-					text: 'Solo: $(videohub:input_' + (i + 1) + ')',
-					size: '14',
-					color: this.rgb(255, 255, 255),
-					bgcolor: this.rgb(0, 0, 0),
+/**
+ * INTERNAL: initialize presets.
+ *
+ * @access protected
+ * @since 1.3.0
+ */
+export function initPresets() {
+	let presets = []
+
+	for (var i = 0; i < this.inputCount; i++) {
+		presets[`input_${i}_solo`] = {
+			category: 'Multiview',
+			name: 'Solo: ' + this.state.getInput(i).name + '',
+			type: 'button',
+			style: {
+				text: 'Solo: $(videohub:input_' + (i + 1) + ')',
+				size: '14',
+				color: combineRgb(255, 255, 255),
+				bgcolor: combineRgb(0, 0, 0),
+			},
+			feedbacks: [
+				{
+					feedbackId: 'solo_source',
+					style: {
+						bgcolor: combineRgb(255, 255, 0),
+						color: combineRgb(0, 0, 0),
+					},
+					options: {
+						input: i,
+					},
 				},
-				feedbacks: [
-					{
-						type: 'solo_source',
-						options: {
-							bg: this.rgb(255, 255, 0),
-							fg: this.rgb(0, 0, 0),
-							input: i,
+			],
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'solo',
+							options: {
+								inp: i,
+							},
 						},
-					},
-				],
-				actions: [
-					{
-						action: 'solo',
-						options: {
-							inp: i,
-						},
-					},
-				],
-			})
-			presets.push({
-				category: 'Multiview',
-				label: 'Audio: ' + this.getInput(i).name + '',
-				bank: {
-					style: 'text',
-					text: 'Audio: $(videohub:input_' + (i + 1) + ')',
-					size: '14',
-					color: this.rgb(255, 255, 255),
-					bgcolor: this.rgb(0, 0, 0),
+					],
+					up: [],
 				},
-				feedbacks: [
-					{
-						type: 'audio_source',
-						options: {
-							bg: this.rgb(255, 255, 0),
-							fg: this.rgb(0, 0, 0),
-							input: i,
-						},
-					},
-				],
-				actions: [
-					{
-						action: 'audio',
-						options: {
-							inp: i,
-						},
-					},
-				],
-			})
+			],
 		}
-
-		for (var type in this.PRESETS_SETTINGS) {
-			for (var choice in this.PRESETS_SETTINGS[type].choices) {
-				presets.push({
-					category: 'Settings',
-					label: this.PRESETS_SETTINGS[type].label + this.PRESETS_SETTINGS[type].choices[choice].preset,
-					bank: {
-						style: 'text',
-						text: this.PRESETS_SETTINGS[type].label + this.PRESETS_SETTINGS[type].choices[choice].preset,
-						size: '14',
-						color: this.rgb(255, 255, 255),
-						bgcolor: this.rgb(0, 0, 0),
+		presets[`input_${i}_audio`] = {
+			category: 'Multiview',
+			name: 'Audio: ' + this.state.getInput(i).name + '',
+			type: 'button',
+			style: {
+				text: 'Audio: $(videohub:input_' + (i + 1) + ')',
+				size: '14',
+				color: combineRgb(255, 255, 255),
+				bgcolor: combineRgb(0, 0, 0),
+			},
+			feedbacks: [
+				{
+					feedbackId: 'audio_source',
+					style: {
+						bgcolor: combineRgb(255, 255, 0),
+						color: combineRgb(0, 0, 0),
 					},
-					feedbacks: [
+					options: {
+						input: i,
+					},
+				},
+			],
+			steps: [
+				{
+					down: [
 						{
-							type: this.PRESETS_SETTINGS[type].feedback,
+							actionId: 'audio',
 							options: {
-								bg: this.rgb(255, 255, 0),
-								fg: this.rgb(0, 0, 0),
-								setting: this.PRESETS_SETTINGS[type].choices[choice].id,
+								inp: i,
 							},
 						},
 					],
-					actions: [
-						{
-							action: this.PRESETS_SETTINGS[type].action,
-							options: {
-								setting: this.PRESETS_SETTINGS[type].choices[choice].id,
-							},
+					up: [],
+				},
+			],
+		}
+	}
+
+	for (var type in this.PRESETS_SETTINGS) {
+		for (var choice in this.PRESETS_SETTINGS[type].choices) {
+			presets[`${this.PRESETS_SETTINGS[type].action}_${this.PRESETS_SETTINGS[type].choices[choice].id}`] = {
+				category: 'Settings',
+				name: this.PRESETS_SETTINGS[type].label + this.PRESETS_SETTINGS[type].choices[choice].preset,
+				type: 'button',
+				style: {
+					text: this.PRESETS_SETTINGS[type].label + this.PRESETS_SETTINGS[type].choices[choice].preset,
+					size: '14',
+					color: combineRgb(255, 255, 255),
+					bgcolor: combineRgb(0, 0, 0),
+				},
+				feedbacks: [
+					{
+						feedbackId: this.PRESETS_SETTINGS[type].feedback,
+						style: {
+							bgcolor: combineRgb(255, 255, 0),
+							color: combineRgb(0, 0, 0),
 						},
-					],
-				})
+						options: {
+							setting: this.PRESETS_SETTINGS[type].choices[choice].id,
+						},
+					},
+				],
+				steps: [
+					{
+						down: [
+							{
+								actionId: this.PRESETS_SETTINGS[type].action,
+								options: {
+									setting: this.PRESETS_SETTINGS[type].choices[choice].id,
+								},
+							},
+						],
+						up: [],
+					},
+				],
 			}
 		}
+	}
 
-		this.setPresetDefinitions(presets)
-	},
+	this.setPresetDefinitions(presets)
 }
