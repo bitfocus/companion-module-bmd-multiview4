@@ -26,8 +26,7 @@ export function getConfigFields(): SomeCompanionConfigField[] {
 			label: 'MultiView IP',
 			width: 12,
 			regex: Regex.IP,
-			isVisible: (options) => !options['bonjourHost'],
-			// isVisibleExpression: '!$(option:bonjourHost)',
+			isVisibleExpression: '!$(options:bonjourHost)',
 		},
 	]
 }
