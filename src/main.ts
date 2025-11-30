@@ -134,9 +134,7 @@ class Multiview4Instance extends InstanceBase<MultiviewConfig> {
 
 			this.#socket = new TCPHelper(ipAndPort.ip, ipAndPort.port || 9990)
 
-			this.#socket.on('status_change', (status, message) => {
-				this.log('error', status + ': ' + message)
-			})
+			this.#socket.on('status_change', (status, message) => this.updateStatus(status, message))
 
 			this.#socket.on('end', () => {
 				this.log('debug', 'Connection closed')
@@ -209,21 +207,19 @@ class Multiview4Instance extends InstanceBase<MultiviewConfig> {
 	 * INTERNAL: Routes incoming data to the appropriate function for processing.
 	 */
 	#processVideohubInformation(key: string, data: string[]) {
-		console.log('process', key, data)
-
 		if (key.match(/(INPUT|OUTPUT) LABELS/)) {
 			this.#updateLabels(key, data)
 		} else if (key.match(/VIDEO OUTPUT ROUTING/)) {
 			this.#updateRouting(key, data)
-
-			// } else if (key.match(/VIDEO OUTPUT LOCKS/)) {
+		} else if (key.match(/VIDEO OUTPUT LOCKS/)) {
+			// Not supported really?
 			//this.updateLocks(key, data)
 			// } else if (key.match(/(VIDEO INPUT|VIDEO OUTPUT) STATUS/)) {
 			// this.updateStatus(key, data)
 			// this.actions()
 			// this.initFeedbacks()
 			// this.initPresets()
-		} else if (key == 'MULTIVIEW DEVICE') {
+		} else if (key == 'MULTIVIEW DEVICE' || key === 'VIDEOHUB DEVICE') {
 			this.#updateDevice(data)
 			// this.actions()
 			// this.initVariables()
@@ -231,6 +227,10 @@ class Multiview4Instance extends InstanceBase<MultiviewConfig> {
 			// this.initPresets()
 		} else if (key == 'CONFIGURATION') {
 			this.#updateDeviceConfig(data)
+		} else if (key === 'PROTOCOL PREAMBLE') {
+			// This means ths initial data dump is starting
+		} else if (key === 'END PRELUDE') {
+			// This means the initial data dump is complete
 		} else {
 			this.log('warn', `Unhandled Videohub data for key ${key}: ${data.join(', ')}`)
 			// TODO: find out more about the video hub from stuff that comes in here
@@ -352,8 +352,6 @@ class Multiview4Instance extends InstanceBase<MultiviewConfig> {
 					break
 			}
 		}
-
-		console.log('invalidate', data, invalidateFeedbacks)
 
 		if (invalidateFeedbacks.size > 0) {
 			this.checkFeedbacks(...invalidateFeedbacks)
